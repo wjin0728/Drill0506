@@ -16,12 +16,19 @@ def load_resources():
 def handle_events():
     global running
     global mx, my
+    global point
+
+
+
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
             running = False
         elif event.type == SDL_MOUSEMOTION:
             mx, my = event.x, TUK_HEIGHT - 1 - event.y
+        elif event.type == SDL_MOUSEBUTTONDOWN and event.button ==SDL_BUTTON_LEFT:
+            point.append((event.x, TUK_HEIGHT - 1 - event.y))
+
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
     pass
@@ -39,7 +46,7 @@ def reset_world():
     frame = 0
     action = 3
 
-    point = [(100, 900),(1200,800),(500,100)]
+    point = []
     set_new_target_arrow()
 
 
