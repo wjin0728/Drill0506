@@ -19,14 +19,13 @@ def handle_events():
     global point
     global target_exist
 
-
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
             running = False
         elif event.type == SDL_MOUSEMOTION:
             mx, my = event.x, TUK_HEIGHT - 1 - event.y
-        elif event.type == SDL_MOUSEBUTTONDOWN and event.button ==SDL_BUTTON_LEFT:
+        elif event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
             point.append((event.x, TUK_HEIGHT - 1 - event.y))
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
@@ -40,7 +39,7 @@ def reset_world():
     global point
 
     running = True
-    mx, my = 0,0
+    mx, my = 0, 0
     cx, cy = TUK_WIDTH // 2, TUK_HEIGHT // 2
     frame = 0
     action = 3
@@ -62,18 +61,18 @@ def set_new_target_arrow():
         t = 0.0
         action = 1 if sx < hx else 0
         frame = 0
-        target_exist=True
+        target_exist = True
     else:
         action = 3 if action == 1 else 2
         frame = 0
-        target_exist=False
+        target_exist = False
 
 
 def render_world():
     clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
     for p in point:
-        arrow.draw(p[0],p[1])
+        arrow.draw(p[0], p[1])
     arrow.draw(mx, my)
     character.clip_draw(frame * 100, 100 * action, 100, 100, cx, cy)
     update_canvas()
