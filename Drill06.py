@@ -31,12 +31,15 @@ def reset_world():
     global running, cx, cy, frame
     global action
     global mx, my
+    global point
 
     running = True
     mx, my = 0,0
     cx, cy = TUK_WIDTH // 2, TUK_HEIGHT // 2
     frame = 0
     action = 3
+
+    point = [(100, 900),(1200,800),(500,100)]
     # set_new_target_arrow()
 
 
@@ -55,6 +58,8 @@ def set_new_target_arrow():
 def render_world():
     clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+    for p in point:
+        arrow.draw(p[0],p[1])
     arrow.draw(mx, my)
     character.clip_draw(frame * 100, 100 * action, 100, 100, cx, cy)
     update_canvas()
@@ -68,7 +73,6 @@ def update_world():
     global action
     global t
     frame = (frame + 1) % 8
-
 
     # if t < 1.0:
     #     cx = (1 - t) * sx + t * hx  # cx는 시작 x와 끝 x 를 1-t : t의 비율로 섞은 위치
