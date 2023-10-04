@@ -47,12 +47,20 @@ def set_new_target_arrow():
     global sx, sy, hx, hy, t
     global action
     global frame
-    sx, sy = cx, cy  # p1 : 시작점
-    # hx, hy = TUK_WIDTH - 50, TUK_HEIGHT - 50
-    hx, hy = point[0]  # p2 : 끝점
-    t = 0.0
-    action = 1 if sx < hx else 0
-    frame = 0
+    global target_exist
+
+    if point:
+        sx, sy = cx, cy  # p1 : 시작점
+        # hx, hy = TUK_WIDTH - 50, TUK_HEIGHT - 50
+        hx, hy = point[0]  # p2 : 끝점
+        t = 0.0
+        action = 1 if sx < hx else 0
+        frame = 0
+        target_exist=True
+    else:
+        action = 3 if action == 1 else 2
+        frame = 0
+        target_exist=False
 
 
 def render_world():
@@ -72,15 +80,18 @@ def update_world():
     global hx, hy
     global action
     global t
+    global point
     frame = (frame + 1) % 8
 
-    if t < 1.0:
-        cx = (1 - t) * sx + t * hx  # cx는 시작 x와 끝 x 를 1-t : t의 비율로 섞은 위치
-        cy = (1 - t) * sy + t * hy
-        t += 0.001
-    else:
-        cx, cy = hx, hy
-        set_new_target_arrow()
+    if target_exist:
+        if t < 1.0:
+            cx = (1 - t) * sx + t * hx  # cx는 시작 x와 끝 x 를 1-t : t의 비율로 섞은 위치
+            cy = (1 - t) * sy + t * hy
+            t += 0.001
+        else:
+            cx, cy = hx, hy
+            del point[0]  # 도착한 점은 삭제
+            set_new_target_arrow()
 
 
 open_canvas(TUK_WIDTH, TUK_HEIGHT)
