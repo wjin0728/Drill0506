@@ -17,7 +17,7 @@ def handle_events():
     global running
     global mx, my
     global point
-
+    global target_exist
 
 
     events = get_events()
@@ -28,7 +28,6 @@ def handle_events():
             mx, my = event.x, TUK_HEIGHT - 1 - event.y
         elif event.type == SDL_MOUSEBUTTONDOWN and event.button ==SDL_BUTTON_LEFT:
             point.append((event.x, TUK_HEIGHT - 1 - event.y))
-
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
     pass
@@ -99,6 +98,8 @@ def update_world():
             cx, cy = hx, hy
             del point[0]  # 도착한 점은 삭제
             set_new_target_arrow()
+    elif point:  # 목표 지점이 없는 상황에서 새로운 목표가 생겼을 때
+        set_new_target_arrow()
 
 
 open_canvas(TUK_WIDTH, TUK_HEIGHT)
